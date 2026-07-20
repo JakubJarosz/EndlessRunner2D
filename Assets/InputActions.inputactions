@@ -7,9 +7,27 @@
             "id": "4ea3a62e-fab9-4aa9-a4e4-4819f16fc30e",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Jump",
                     "type": "Button",
                     "id": "d1ce039b-16c3-43a6-a671-9f9170a01862",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "a14c7f8d-d737-4076-b0dd-5d7e32bc3f43",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Slide",
+                    "type": "Button",
+                    "id": "8ed81ee2-bc35-40ab-bf9c-9b597e00bc76",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -20,11 +38,33 @@
                 {
                     "name": "",
                     "id": "d0e99683-53aa-4c7c-8b7d-5a3c577b1ca1",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "869af114-1986-44f5-a09c-794410820248",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d78eb7a2-3eaa-40d9-a6c2-935a749016cb",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

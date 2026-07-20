@@ -1,16 +1,16 @@
+using System;
 using UnityEngine;
 
 public class GameInputs : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private InputActions inputActions;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public event Action<bool> IsJumpPressed;
+
+    private void Awake() {
+        inputActions = new InputActions();
+        inputActions.Enable();
+        inputActions.Player.Jump.started += ctx => IsJumpPressed?.Invoke(true);
+        inputActions.Player.Jump.canceled += ctx => IsJumpPressed?.Invoke(false);
     }
 }

@@ -520,6 +520,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1130067605}
   - component: {fileID: 1130067606}
+  - component: {fileID: 1130067607}
+  - component: {fileID: 1130067608}
   m_Layer: 0
   m_Name: PlayerVisual
   m_TagString: Untagged
@@ -601,6 +603,41 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &1130067607
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130067604}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f6f68d3e7f9de324eb0894dcf56c27c8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1130067608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130067604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73902f7cca177b344a46bbff25e5b716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisual
+  detection: {fileID: 149832818}
 --- !u!1 &1335068869
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,6 +889,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e001ec18340aeb14d95859a36bf4fc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
+  jumpForce: 26.1
+  howLongCanHoldJump: 0.76
+  baseGravity: 1
+  jumpHoldGravity: 2.7
+  jumpCutGravity: 10.68
+  fallGravity: 6.34
 --- !u!114 &1632623243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,7 +976,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 1632623241}
+    TrackingTarget: {fileID: 0}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:

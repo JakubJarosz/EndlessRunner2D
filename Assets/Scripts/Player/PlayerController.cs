@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -17,11 +18,11 @@ public class PlayerController : MonoBehaviour
     public PlayerState state {  get; private set; }
 
     public event Action PerformJump;
+    public event Action<bool> PerformLanding;
 
     // Roll landing variables
     private float lastYVelocity;
     private bool wasGrounded;
-    public bool ShouldRoll { get; private set; }
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -30,12 +31,16 @@ public class PlayerController : MonoBehaviour
         jump = GetComponent<PlayerJump>();
     }
 
+    private void Start() {
+        wasGrounded = detection.IsGrounded();
+    }
+
     private void Update() {
         HandleState();
         Jump();
         HandleGravity();
-        HandleRollLanding();
-
+        HandleLanding();
+   
         switch (state) {
             case PlayerState.Running:
                 break;
@@ -71,11 +76,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleRollLanding() {
+    private void HandleLanding() {
         bool isGrounded = detection.IsGrounded();
 
         if (!wasGrounded && isGrounded) {
-            ShouldRoll = lastYVelocity <= -32f;
+            // if true roll, else normal landing
+            PerformLanding?.Invoke(lastYVelocity <= -32f);
         }
 
         wasGrounded = isGrounded;

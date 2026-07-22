@@ -5,7 +5,6 @@ public class PlayerVisual : MonoBehaviour
     private Animator anim;
 
     private PlayerController controller;
-    [SerializeField] private PlayerDetection detection;
 
     private void Awake() {
         anim = GetComponent<Animator>();
@@ -15,11 +14,18 @@ public class PlayerVisual : MonoBehaviour
 
     private void Start() {
         controller.PerformJump += Controller_PerformJump;
+        controller.PerformLanding += Controller_PerformLanding;
+    }
+
+    private void Controller_PerformLanding(bool obj) {
+        if (obj) {
+            anim.SetTrigger("rollLanding");
+        } else {
+            anim.SetTrigger("normalLanding");
+        }
     }
 
     private void Update() {
-        anim.SetBool("isGrounded", detection.IsGrounded());
-        anim.SetBool("shouldRoll", controller.ShouldRoll);
         anim.SetFloat("yVelocity", controller.GetYVelocity());
     }
 

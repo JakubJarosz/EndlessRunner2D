@@ -4,10 +4,13 @@ using UnityEngine;
 public class PlayerJump : MonoBehaviour
 {
     private GameInputs inputs;
+    private PlayerDetection detection;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float howLongCanHoldJump;
+    [SerializeField] private float jumpBufferTime;
+    [SerializeField] private float coyoteJumpTime;
 
     [Header("Gravity Settings")]
     [SerializeField] private float baseGravity = 1f;
@@ -17,10 +20,19 @@ public class PlayerJump : MonoBehaviour
 
     private bool isJumpPressed;
     private bool wasJumpPressed;
+    private bool JumpPressedThisFrame;
     private float jumpTime;
 
+    private float jumpBufferCounter;
+    private float coyoteJumpCounter;
+
     public bool IsHoldingJump => isJumpPressed && jumpTime < howLongCanHoldJump;
-    public bool JumpPressedThisFrame {  get; private set; }
+    public bool HasBufferJump => jumpBufferCounter > 0f;
+    public bool HasCoyote => coyoteJumpCounter > 0f;
+
+    private void Awake() {
+        detection = GetComponentInChildren<PlayerDetection>();
+    }
 
     private void Start() {
         inputs = GameManager.instance.gameInput;
@@ -28,7 +40,15 @@ public class PlayerJump : MonoBehaviour
     }
 
     private void Update() {
+        HandleCoyote();
+
         JumpPressedThisFrame = isJumpPressed && !wasJumpPressed;
+
+        if (JumpPressedThisFrame) {
+            jumpBufferCounter = jumpBufferTime;
+        } else {
+            jumpBufferCounter -= Time.deltaTime;
+        }
 
         HandleJump();
 
@@ -45,6 +65,24 @@ public class PlayerJump : MonoBehaviour
         } else {
             jumpTime = 0f;
         }
+    }
+
+    private void HandleCoyote() {
+        bool isGrounded = detection.IsGrounded();
+
+        if (isGrounded) {
+            coyoteJumpCounter = coyoteJumpTime;
+        } else {
+            coyoteJumpCounter -= Time.deltaTime;
+        }
+    }
+
+    public void ClearJumpBuffer() {
+        jumpBufferCounter = 0f;
+    }
+
+    public void ClearCoyote() {
+        coyoteJumpCounter = 0f;
     }
 
     public float GetJumpForce() {

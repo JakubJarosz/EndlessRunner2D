@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5b7734d73fc2e4485522cef22f3338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldMovement
-  initialSpeed: 0
+  initialSpeed: 5.5
 --- !u!4 &202320730
 Transform:
   m_ObjectHideFlags: 0
@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   gameInput: {fileID: 539407372}
+  levelManager: {fileID: 79825940}
 --- !u!4 &373209958
 Transform:
   m_ObjectHideFlags: 0
@@ -819,7 +820,7 @@ Transform:
   m_GameObject: {fileID: 1632623238}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.54, y: -1.52, z: 0}
+  m_LocalPosition: {x: 0, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -841,6 +842,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
   jumpForce: 26.1
   howLongCanHoldJump: 0.76
+  jumpBufferTime: 0.1
+  coyoteJumpTime: 0.1
   baseGravity: 1
   jumpHoldGravity: 2.7
   jumpCutGravity: 10.68
@@ -857,6 +860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be27d3e7ad5837a419a110527ba41310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  performRollAtVelocity: 36
 --- !u!61 &1632623244
 BoxCollider2D:
   m_ObjectHideFlags: 0

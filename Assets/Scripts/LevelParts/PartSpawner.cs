@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EndPointSpawner : MonoBehaviour
+public class PartSpawner : MonoBehaviour
 {
     public GameObject SpawnNewPart(GameObject part) {
         Transform parent = GetComponentInParent<WorldMovement>().transform;

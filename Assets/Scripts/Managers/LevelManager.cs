@@ -21,15 +21,17 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void SpawnNext() {
-        EndPointSpawner spawnPoint = lastSpawned.GetComponentInChildren<EndPointSpawner>();
+    public void SpawnNext() {
+        PartSpawner spawnPoint = lastSpawned.GetComponentInChildren<PartSpawner>();
 
         GameObject prefab = levelListSO.GetRandomPart(lastSpawned);
         GameObject newPart = spawnPoint.SpawnNewPart(prefab);
 
         activeParts.Enqueue(newPart);
         lastSpawned = newPart;
+    }
 
+    public void DestroyPart() {
         if (activeParts.Count > maxParts) {
             GameObject old = activeParts.Dequeue();
             Destroy(old);

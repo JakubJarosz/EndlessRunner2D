@@ -27,6 +27,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update() {
         anim.SetFloat("yVelocity", controller.GetYVelocity());
+        anim.SetBool("isGrounded", controller.state == PlayerController.PlayerState.Running);
     }
 
 

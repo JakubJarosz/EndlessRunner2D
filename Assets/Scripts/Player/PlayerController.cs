@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,10 +10,13 @@ public class PlayerController : MonoBehaviour
     private PlayerDetection detection;
     private PlayerJump jump;
 
+    [SerializeField] private float performRollAtVelocity;
+
     public enum PlayerState {
         Running,
         Jump,
-        Fall
+        Fall,
+        RollLanding
     }
 
     public PlayerState state {  get; private set; }
@@ -37,9 +41,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         HandleState();
-        Jump();
-        HandleGravity();
         HandleLanding();
+        HandleGravity();
+
+        if (CanPerformActions()) {
+            Jump();
+        }
+
    
         switch (state) {
             case PlayerState.Running:
@@ -52,6 +60,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleState() {
+        if (state == PlayerState.RollLanding) {
+            return;
+        }
+
         if (detection.IsGrounded()) {
             state = PlayerState.Running;
         } else {
@@ -59,9 +71,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool CanPerformActions() {
+        return state != PlayerState.RollLanding;
+    }
+
     private void Jump() {
-        if (jump.JumpPressedThisFrame && detection.IsGrounded()) {
+        if (jump.HasBufferJump && jump.HasCoyote) {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.GetJumpForce());
+            jump.ClearJumpBuffer();
+            jump.ClearCoyote();
             PerformJump?.Invoke();
         } 
     }
@@ -81,11 +99,25 @@ public class PlayerController : MonoBehaviour
 
         if (!wasGrounded && isGrounded) {
             // if true roll, else normal landing
-            PerformLanding?.Invoke(lastYVelocity <= -32f);
+            bool shouldRoll = lastYVelocity <= -performRollAtVelocity;
+            PerformLanding?.Invoke(shouldRoll);
+
+            // block movement for a while when roll landing
+            if (shouldRoll) {
+                state = PlayerState.RollLanding;
+                // zero buffer so Player wont jump
+                jump.ClearJumpBuffer();
+                StartCoroutine(EndRoll());
+            }
         }
 
         wasGrounded = isGrounded;
         lastYVelocity = rb.linearVelocity.y;
+    }
+
+    private IEnumerator EndRoll() {
+        yield return new WaitForSeconds(0.3f);
+        state = PlayerState.Running;
     }
 
     // Return functions

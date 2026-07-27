@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8356b46a4ed87bf458f0bd8e7bdc1be6, type: 3}
+  m_Name: LevelPartsList
+  m_EditorClassIdentifier: Assembly-CSharp::ListOfLevelPartsSO
+  prefabs:
+  - {fileID: 6702718648876344342, guid: 6b62ec755f7a05f4e87a0e688b8d451d, type: 3}
+  - {fileID: 2623369773510122962, guid: 8c8362740082e054d8850e9cf2c8e933, type: 3}
+  - {fileID: 9146546225218289877, guid: 59210f8eff2052542b38c4ce0888aa25, type: 3}
+  - {fileID: 6967273343387566993, guid: d7318d7253e9f77479fd19d9d61f34e8, type: 3}
+  - {fileID: 5411407538521971737, guid: 162ceac529e1a6d439d9b86f651448a0, type: 3}

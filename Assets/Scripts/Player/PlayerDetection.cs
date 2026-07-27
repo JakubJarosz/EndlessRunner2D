@@ -15,6 +15,6 @@ public class PlayerDetection : MonoBehaviour
     }
 
     public bool IsGrounded() {
-        return Physics2D.OverlapBox(transform.position, groundCheckRadius, groundLayer);
+        return Physics2D.OverlapBox(transform.position, groundCheckRadius, 0f, groundLayer);
     }
 }

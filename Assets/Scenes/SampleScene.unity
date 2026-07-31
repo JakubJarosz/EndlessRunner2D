@@ -869,6 +869,7 @@ GameObject:
   - component: {fileID: 1632623244}
   - component: {fileID: 1632623243}
   - component: {fileID: 1632623242}
+  - component: {fileID: 1632623245}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -999,6 +1000,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.8589351, y: 3.6890852}
   m_EdgeRadius: 0
+--- !u!114 &1632623245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632623238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818ed7112029cd94a9b5a3178f0e43a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSlide
 --- !u!1001 &1725295751
 PrefabInstance:
   m_ObjectHideFlags: 0

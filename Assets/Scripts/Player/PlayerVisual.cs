@@ -15,6 +15,15 @@ public class PlayerVisual : MonoBehaviour
     private void Start() {
         controller.PerformJump += Controller_PerformJump;
         controller.PerformLanding += Controller_PerformLanding;
+        controller.PerformSlide += Controller_PerformSlide;
+    }
+
+    private void Controller_PerformSlide(bool obj) {
+        if (obj) {
+            anim.SetTrigger("slideStart");
+        } else {
+            anim.SetTrigger("slideEnd");
+        }
     }
 
     private void Controller_PerformLanding(bool obj) {
@@ -27,7 +36,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update() {
         anim.SetFloat("yVelocity", controller.GetYVelocity());
-        anim.SetBool("isGrounded", controller.state == PlayerController.PlayerState.Running);
+        anim.SetBool("isGrounded", controller.currentState == PlayerController.PlayerState.Running);
     }
 
 

@@ -812,7 +812,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4723107735738678597, guid: b03a862bfa75058458ebb99f855476d8, type: 3}
+  m_Sprite: {fileID: 6552166320815463782, guid: f82583c8a852bc243bf3c686944ca34e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1012,6 +1012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818ed7112029cd94a9b5a3178f0e43a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSlide
+  slideSize: {x: 3.55, y: 2.3}
+  slideOffset: {x: 0, y: -0.75}
+  minSlideDuration: 0.2
+  slideCooldown: 0.2
 --- !u!1001 &1725295751
 PrefabInstance:
   m_ObjectHideFlags: 0

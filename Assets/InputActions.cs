@@ -135,7 +135,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""869af114-1986-44f5-a09c-794410820248"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

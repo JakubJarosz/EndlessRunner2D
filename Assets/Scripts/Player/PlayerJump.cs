@@ -6,7 +6,7 @@ public class PlayerJump : MonoBehaviour
     private GameInputs inputs;
     private PlayerDetection detection;
 
-    [Header("Jump Settings")]
+    [Header("HandleJump Settings")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float howLongCanHoldJump;
     [SerializeField] private float jumpBufferTime;

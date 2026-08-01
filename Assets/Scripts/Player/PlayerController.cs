@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerDetection detection;
     private PlayerJump jump;
+    private PlayerSlide slide;
 
     [SerializeField] private float performRollAtVelocity;
 
@@ -16,13 +17,16 @@ public class PlayerController : MonoBehaviour
         Running,
         Jump,
         Fall,
+        Slide,
         RollLanding
     }
 
-    public PlayerState state {  get; private set; }
+    public PlayerState currentState {  get; private set; }
+    private PlayerState previousState;
 
     public event Action PerformJump;
     public event Action<bool> PerformLanding;
+    public event Action<bool> PerformSlide;
 
     // Roll landing variables
     private float lastYVelocity;
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
         detection = GetComponentInChildren<PlayerDetection>();
         jump = GetComponent<PlayerJump>();
+        slide = GetComponent<PlayerSlide>();
     }
 
     private void Start() {
@@ -45,11 +50,11 @@ public class PlayerController : MonoBehaviour
         HandleGravity();
 
         if (CanPerformActions()) {
-            Jump();
+            HandleJump();
         }
 
    
-        switch (state) {
+        switch (currentState) {
             case PlayerState.Running:
                 break;
             case PlayerState.Jump:
@@ -60,27 +65,55 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleState() {
-        if (state == PlayerState.RollLanding) {
+        previousState = currentState;
+
+        if (currentState == PlayerState.RollLanding) {
             return;
         }
 
         if (detection.IsGrounded()) {
-            state = PlayerState.Running;
+
+            if (slide.IsSliding) {
+                currentState = PlayerState.Slide;
+            } else {
+                currentState = PlayerState.Running;
+            }
+   
         } else {
-            state = rb.linearVelocity.y > 0 ? PlayerState.Jump : PlayerState.Fall;
+            currentState = rb.linearVelocity.y > 0 ? PlayerState.Jump : PlayerState.Fall;
+        }
+
+        HandleStateChange();
+    }
+
+    private void HandleStateChange() {
+        if (currentState == previousState) return;
+
+        // Enter Slide
+        if (currentState == PlayerState.Slide) {
+            PerformSlide?.Invoke(true);
+        }
+
+        // Exit Slide
+        if (previousState == PlayerState.Slide) {
+            PerformSlide?.Invoke(false);
+        }
+
+        // Jump Trigger
+        if (currentState == PlayerState.Jump) {
+            PerformJump?.Invoke();
         }
     }
 
     private bool CanPerformActions() {
-        return state != PlayerState.RollLanding;
+        return currentState != PlayerState.RollLanding;
     }
 
-    private void Jump() {
+    private void HandleJump() {
         if (jump.HasBufferJump && jump.HasCoyote) {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.GetJumpForce());
             jump.ClearJumpBuffer();
             jump.ClearCoyote();
-            PerformJump?.Invoke();
         } 
     }
 
@@ -104,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
             // block movement for a while when roll landing
             if (shouldRoll) {
-                state = PlayerState.RollLanding;
+                currentState = PlayerState.RollLanding;
                 // zero buffer so Player wont jump
                 jump.ClearJumpBuffer();
                 StartCoroutine(EndRoll());
@@ -117,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator EndRoll() {
         yield return new WaitForSeconds(0.3f);
-        state = PlayerState.Running;
+        currentState = PlayerState.Running;
     }
 
     // Return functions

@@ -812,7 +812,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 6552166320815463782, guid: f82583c8a852bc243bf3c686944ca34e, type: 3}
+  m_Sprite: {fileID: 4723107735738678597, guid: b03a862bfa75058458ebb99f855476d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 1632623243}
   - component: {fileID: 1632623242}
   - component: {fileID: 1632623245}
+  - component: {fileID: 1632623246}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1016,6 +1017,18 @@ MonoBehaviour:
   slideOffset: {x: 0, y: -0.75}
   minSlideDuration: 0.2
   slideCooldown: 0.2
+--- !u!114 &1632623246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632623238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ca7cb9ea71a5c4cb2bbea729ab89b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
 --- !u!1001 &1725295751
 PrefabInstance:
   m_ObjectHideFlags: 0

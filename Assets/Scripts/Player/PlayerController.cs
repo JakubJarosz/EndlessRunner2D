@@ -44,11 +44,13 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Start() {
-        wasGrounded = detection.IsGrounded();
+        GameManager.instance.deathTrigger.PlayerDeath += DeathTrigger_PlayerDeath;
+       wasGrounded = detection.IsGrounded();
     }
 
     private void Update() {
         HandleState();
+        HandlePositionAdjustion();
         HandleLanding();
         HandleGravity();
 
@@ -122,6 +124,12 @@ public class PlayerController : MonoBehaviour
         return currentState != PlayerState.RollLanding;
     }
 
+    private void HandlePositionAdjustion() {
+        if (transform.position.x != 0) {
+
+        }
+    }
+
     private void HandleJump() {
         if (jump.HasBufferJump && jump.HasCoyote) {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.GetJumpForce());
@@ -170,6 +178,11 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
     }
 
+    private void DeathTrigger_PlayerDeath() {
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
+    }
+    
     // Return functions
     public float GetYVelocity() {
         return rb.linearVelocity.y;

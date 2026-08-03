@@ -17,6 +17,11 @@ public class PlayerVisual : MonoBehaviour
         controller.PerformLanding += Controller_PerformLanding;
         controller.PerformSlide += Controller_PerformSlide;
         controller.PerformDash += Controller_PerformDash;
+        GameManager.instance.deathTrigger.PlayerDeath += Trigger_PlayerDeath;
+    }
+
+    private void Trigger_PlayerDeath() {
+        anim.SetTrigger("death");
     }
 
     private void Controller_PerformDash(bool obj) {

@@ -10,10 +10,6 @@ public class PlayerDetection : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, groundCheckRadius);
     }
 
-    private void Update() {
-        Debug.Log(IsGrounded());
-    }
-
     public bool IsGrounded() {
         return Physics2D.OverlapBox(transform.position, groundCheckRadius, 0f, groundLayer);
     }

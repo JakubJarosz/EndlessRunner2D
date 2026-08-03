@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5b7734d73fc2e4485522cef22f3338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldMovement
+  playerController: {fileID: 1632623243}
   initialSpeed: 5.5
   speedIncreaseRate: 0.2
 --- !u!4 &202320730
@@ -325,6 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   gameInput: {fileID: 539407372}
   levelManager: {fileID: 79825940}
+  deathTrigger: {fileID: 514111580}
 --- !u!4 &373209958
 Transform:
   m_ObjectHideFlags: 0

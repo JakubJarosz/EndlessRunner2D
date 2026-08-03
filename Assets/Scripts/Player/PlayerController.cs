@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private PlayerDetection detection;
     private PlayerJump jump;
     private PlayerSlide slide;
+    private PlayerDash dash;
 
     [SerializeField] private float performRollAtVelocity;
 
@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
         Jump,
         Fall,
         Slide,
+        Dash,
         RollLanding
     }
 
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public event Action PerformJump;
     public event Action<bool> PerformLanding;
     public event Action<bool> PerformSlide;
+    public event Action<bool> PerformDash;
 
     // Roll landing variables
     private float lastYVelocity;
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
         detection = GetComponentInChildren<PlayerDetection>();
         jump = GetComponent<PlayerJump>();
         slide = GetComponent<PlayerSlide>();
+        dash = GetComponent<PlayerDash>();
     }
 
     private void Start() {
@@ -55,11 +58,8 @@ public class PlayerController : MonoBehaviour
 
    
         switch (currentState) {
-            case PlayerState.Running:
-                break;
-            case PlayerState.Jump:
-                break;
-            case PlayerState.Fall:
+            case PlayerState.Dash:
+                HandleDash();
                 break;
         }
     }
@@ -71,7 +71,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (detection.IsGrounded()) {
+        if (dash.IsDashing) {
+            currentState = PlayerState.Dash;
+        } 
+        else if (detection.IsGrounded()) {
 
             if (slide.IsSliding) {
                 currentState = PlayerState.Slide;
@@ -97,6 +100,16 @@ public class PlayerController : MonoBehaviour
         // Exit Slide
         if (previousState == PlayerState.Slide) {
             PerformSlide?.Invoke(false);
+        }
+
+        // Enter Dash
+        if (currentState == PlayerState.Dash) {
+            PerformDash?.Invoke(true);
+        }
+
+        // Exit Dash
+        if (previousState == PlayerState.Dash) {
+            PerformDash?.Invoke(false);
         }
 
         // Jump Trigger
@@ -151,6 +164,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator EndRoll() {
         yield return new WaitForSeconds(0.3f);
         currentState = PlayerState.Running;
+    }
+
+    private void HandleDash() {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
     }
 
     // Return functions

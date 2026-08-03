@@ -894,7 +894,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 48fcf6010923f664a95e4bd1bf3f2050, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1029,6 +1029,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ca7cb9ea71a5c4cb2bbea729ab89b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashTime: 0.6
+  dashCooldownTime: 0.3
 --- !u!1001 &1725295751
 PrefabInstance:
   m_ObjectHideFlags: 0

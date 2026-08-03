@@ -16,6 +16,15 @@ public class PlayerVisual : MonoBehaviour
         controller.PerformJump += Controller_PerformJump;
         controller.PerformLanding += Controller_PerformLanding;
         controller.PerformSlide += Controller_PerformSlide;
+        controller.PerformDash += Controller_PerformDash;
+    }
+
+    private void Controller_PerformDash(bool obj) {
+        if (obj) {
+            anim.SetTrigger("dashStart");
+        } else {
+            anim.SetTrigger("dashEnd");
+        }
     }
 
     private void Controller_PerformSlide(bool obj) {

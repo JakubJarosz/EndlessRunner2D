@@ -957,6 +957,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   performRollAtVelocity: 36
+  treshhold: 2.5
+  centerSpeed: 2
 --- !u!61 &1632623244
 BoxCollider2D:
   m_ObjectHideFlags: 0

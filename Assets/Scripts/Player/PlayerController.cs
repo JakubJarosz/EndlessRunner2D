@@ -11,7 +11,14 @@ public class PlayerController : MonoBehaviour
     private PlayerSlide slide;
     private PlayerDash dash;
 
+    [Header("Roll variables")]
     [SerializeField] private float performRollAtVelocity;
+
+    [Header("Player position variables")]
+    [SerializeField] private float treshhold;
+    [SerializeField] private float centerSpeed;
+    private float lastPosition;
+    private float unchangedTimer;
 
     public enum PlayerState {
         Running,
@@ -45,11 +52,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start() {
         GameManager.instance.deathTrigger.PlayerDeath += DeathTrigger_PlayerDeath;
-       wasGrounded = detection.IsGrounded();
+        wasGrounded = detection.IsGrounded();
     }
 
     private void Update() {
         HandleState();
+        HandleCharacterCentering();
         HandlePositionAdjustion();
         HandleLanding();
         HandleGravity();
@@ -182,10 +190,43 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f;
     }
-    
+
+  
+
+    private void HandleCharacterCentering() {
+        float currentPosition = transform.position.x;
+        float delta = currentPosition - lastPosition;
+        bool isBeingPushed = delta < -0.01f;
+        bool isBeingCentered = delta > 0.01f;
+        bool isNotMoving = Mathf.Abs(delta) <= 0.01f;
+
+        if (isBeingPushed) {
+            unchangedTimer = 0f;
+        } else if (isNotMoving) {
+            unchangedTimer += Time.deltaTime;
+
+            if (unchangedTimer >= treshhold) {
+                // Start centering
+                CenterCharacter();
+            }
+        } else if (isBeingCentered) {
+            CenterCharacter();
+            unchangedTimer = 0f;
+        }
+
+            lastPosition = currentPosition;
+    }
+
+    private void CenterCharacter() {
+        Vector3 pos = transform.position;
+
+        pos.x = Mathf.MoveTowards(pos.x, 0f, centerSpeed * Time.deltaTime);
+
+        transform.position = pos;
+    }
+
     // Return functions
     public float GetYVelocity() {
         return rb.linearVelocity.y;
     }
-
 }

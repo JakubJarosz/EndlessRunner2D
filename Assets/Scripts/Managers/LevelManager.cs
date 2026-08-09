@@ -27,6 +27,9 @@ public class LevelManager : MonoBehaviour
         GameObject prefab = levelListSO.GetRandomPart(lastSpawned);
         GameObject newPart = spawnPoint.SpawnNewPart(prefab);
 
+        CoinSpawner coinHandler = newPart.GetComponentInChildren<CoinSpawner>();
+        coinHandler.EnableRandomCoinPart();
+
         activeParts.Enqueue(newPart);
         lastSpawned = newPart;
     }

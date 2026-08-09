@@ -11,6 +11,11 @@ public class PlayerSlide : MonoBehaviour
     [SerializeField] private Vector2 slideSize;
     [SerializeField] private Vector2 slideOffset;
 
+    [Header("Safe to stand up")]
+    [SerializeField] private LayerMask environmentLayer;
+    [SerializeField] private Vector2 safeSize;
+    [SerializeField] private Vector2 safeOffset;
+
     [Header("Slide Timers")]
     [SerializeField] private float minSlideDuration;
     [SerializeField] private float slideCooldown;
@@ -56,13 +61,9 @@ public class PlayerSlide : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(pos + (Vector3)col.offset, col.size);
 
-        //// running
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(pos + (Vector3)runOffset, runSize);
-
-        //// sliding
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawWireCube(pos + (Vector3)slideOffset, slideSize);
+        // safe to stand
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(pos + (Vector3)safeOffset, safeSize);
     }
 
     private void TryToStartSlide() {
@@ -81,10 +82,15 @@ public class PlayerSlide : MonoBehaviour
 
         if (slideTimer < minSlideDuration) return;
 
-        if (!isSlidingPressed) {
+        if (!isSlidingPressed && IsSafeToStand()) {
             IsSliding = false;
             col.size = runSize;
             col.offset = runOffset;
         }
+    }
+
+    private bool IsSafeToStand() {
+        Vector3 pos = transform.position;
+        return !Physics2D.OverlapBox(pos + (Vector3)safeOffset, safeSize, 0f, environmentLayer);
     }
 }

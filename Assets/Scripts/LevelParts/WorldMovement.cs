@@ -6,9 +6,12 @@ public class WorldMovement : MonoBehaviour
 
     [SerializeField] private float initialSpeed;
     [SerializeField] private float speedIncreaseRate;
+    [SerializeField] private float speedWhenTheSlowBoostCanSpawn;
 
     private float currentSpeed;
     private bool stopMovement;
+
+    private float meterCounter;
 
     private void Start() {
         currentSpeed = initialSpeed;
@@ -17,6 +20,7 @@ public class WorldMovement : MonoBehaviour
 
     private void Update() {
         if (!stopMovement) {
+            meterCounter += Time.deltaTime * currentSpeed;
             SpeedIncreaseOverTime();
             DashIncrease();
             Move();

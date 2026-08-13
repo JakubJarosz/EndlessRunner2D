@@ -8,23 +8,24 @@ public class WorldMovement : MonoBehaviour
     [SerializeField] private float speedIncreaseRate;
     [SerializeField] private float speedWhenTheSlowBoostCanSpawn;
 
+    private float baseSpeed;
     private float currentSpeed;
     private bool stopMovement;
 
     private float meterCounter;
 
     private void Start() {
-        currentSpeed = initialSpeed;
+        baseSpeed = initialSpeed;
         GameManager.instance.deathTrigger.PlayerDeath += DeathTrigger_PlayerDeath;
     }
 
     private void Update() {
-        if (!stopMovement) {
-            meterCounter += Time.deltaTime * currentSpeed;
-            SpeedIncreaseOverTime();
-            DashIncrease();
-            Move();
-        }
+        if (stopMovement) return;
+
+        Debug.Log(Mathf.FloorToInt(meterCounter += Time.deltaTime * currentSpeed) + "m");
+        SpeedIncreaseOverTime();
+        CalculateFinalSpeed();
+        Move();
     }
 
     private void Move() {
@@ -32,15 +33,18 @@ public class WorldMovement : MonoBehaviour
     }
 
     private void SpeedIncreaseOverTime() {
-        currentSpeed += speedIncreaseRate * Time.deltaTime;
+        baseSpeed += speedIncreaseRate * Time.deltaTime;
     }
 
-    private void DashIncrease() {
-        float speed = currentSpeed;
+    private void CalculateFinalSpeed() {
+        float multiplier = 1f;
+
+        // Player dashes
         if (playerController.currentState == PlayerController.PlayerState.Dash) {
-            speed += 5f;
+            multiplier *= 1.4f;
         }
-        transform.position += Vector3.left * speed * Time.deltaTime;
+
+        currentSpeed = baseSpeed * multiplier;
     }
 
 

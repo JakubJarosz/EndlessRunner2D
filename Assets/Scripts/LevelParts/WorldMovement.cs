@@ -22,7 +22,6 @@ public class WorldMovement : MonoBehaviour
     private void Update() {
         if (stopMovement) return;
 
-        Debug.Log(Mathf.FloorToInt(meterCounter += Time.deltaTime * currentSpeed) + "m");
         SpeedIncreaseOverTime();
         CalculateFinalSpeed();
         Move();

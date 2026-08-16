@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class CoinPack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private BoosterPos[] spawnPoints;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Awake() {
+        spawnPoints = GetComponentsInChildren<BoosterPos>(true);
     }
 }

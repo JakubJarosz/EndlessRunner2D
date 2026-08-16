@@ -13,6 +13,7 @@ public class WorldMovement : MonoBehaviour
     private bool stopMovement;
 
     private float meterCounter;
+    private float speedMultiplier = 1f;
 
     private void Start() {
         baseSpeed = initialSpeed;
@@ -40,19 +41,19 @@ public class WorldMovement : MonoBehaviour
     }
 
     private void CalculateFinalSpeed() {
-        float multiplier = 1f;
-
         // Player dashes
         if (playerController.currentState == PlayerController.PlayerState.Dash) {
-            multiplier *= 1.4f;
+            speedMultiplier *= 1.4f;
         }
 
-        currentSpeed = baseSpeed * multiplier;
+        currentSpeed = baseSpeed * speedMultiplier;
     }
-
 
     private void DeathTrigger_PlayerDeath() {
         stopMovement = true;
     }
 
+    public bool CanSpawnBooster() {
+        return currentSpeed >= 20f && speedMultiplier == 1f;
+    }
 }

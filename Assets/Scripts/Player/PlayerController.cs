@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     private float lastYVelocity;
     private bool wasGrounded;
 
+    private bool playerDied;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
 
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() {
+        if (playerDied) return;
         HandleState();
         HandleCharacterCentering();
         HandlePositionAdjustion();
@@ -187,11 +190,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void DeathTrigger_PlayerDeath() {
+        playerDied = true;
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f;
     }
-
-  
 
     private void HandleCharacterCentering() {
         float currentPosition = transform.position.x;

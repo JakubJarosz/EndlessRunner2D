@@ -22,13 +22,17 @@ public class WorldMovement : MonoBehaviour
     private void Update() {
         if (stopMovement) return;
 
+        float distanceThisFrame = Time.deltaTime * currentSpeed;
+        meterCounter += distanceThisFrame;
+        GameManager.instance.SetDistance(meterCounter);
+
         SpeedIncreaseOverTime();
         CalculateFinalSpeed();
         Move();
     }
 
     private void Move() {
-        transform.position += Vector3.left * currentSpeed * Time.deltaTime;
+        transform.position += currentSpeed * Time.deltaTime * Vector3.left;
     }
 
     private void SpeedIncreaseOverTime() {

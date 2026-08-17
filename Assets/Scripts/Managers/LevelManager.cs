@@ -11,6 +11,9 @@ public class LevelManager : MonoBehaviour
 
     private int maxParts = 5;
 
+    private bool boosterWasSpawned;
+    private int spawnCounterAfterBoost;
+
     private void Awake() {
         activeParts.Enqueue(initialSpawn);
         lastSpawned = initialSpawn;
@@ -26,10 +29,22 @@ public class LevelManager : MonoBehaviour
 
         GameObject prefab = levelListSO.GetRandomPart(lastSpawned);
         GameObject newPart = spawnPoint.SpawnNewPart(prefab);
+        if (boosterWasSpawned) {
+            spawnCounterAfterBoost++;
+        }
 
+        // Coin Spawner
         CoinSpawner coinHandler = newPart.GetComponentInChildren<CoinSpawner>();
         coinHandler.EnableRandomCoinPart();
 
+        // Booster Spawner
+        if (spawnCounterAfterBoost == 0 || spawnCounterAfterBoost >= Random.Range(2,4)) {
+            BoostersSpawner boostSpawner = newPart.GetComponentInChildren<BoostersSpawner>();
+            boostSpawner.SpawnBooster();
+            spawnCounterAfterBoost = 0;
+            boosterWasSpawned = true;
+        }
+  
         activeParts.Enqueue(newPart);
         lastSpawned = newPart;
     }

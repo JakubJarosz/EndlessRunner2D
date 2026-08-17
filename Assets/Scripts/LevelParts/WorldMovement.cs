@@ -30,6 +30,8 @@ public class WorldMovement : MonoBehaviour
         SpeedIncreaseOverTime();
         CalculateFinalSpeed();
         Move();
+
+        Debug.Log("current Speed " + currentSpeed);
     }
 
     private void Move() {
@@ -43,10 +45,12 @@ public class WorldMovement : MonoBehaviour
     private void CalculateFinalSpeed() {
         // Player dashes
         if (playerController.currentState == PlayerController.PlayerState.Dash) {
-            speedMultiplier *= 1.4f;
+            speedMultiplier = 1.4f;
+        } else {
+            speedMultiplier = 1f;
         }
 
-        currentSpeed = baseSpeed * speedMultiplier;
+            currentSpeed = baseSpeed * speedMultiplier;
     }
 
     private void DeathTrigger_PlayerDeath() {
@@ -54,6 +58,6 @@ public class WorldMovement : MonoBehaviour
     }
 
     public bool CanSpawnBooster() {
-        return currentSpeed >= 20f && speedMultiplier == 1f;
+        return currentSpeed >= speedWhenTheSlowBoostCanSpawn && speedMultiplier == 1f;
     }
 }

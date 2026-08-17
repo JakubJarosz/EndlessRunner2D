@@ -415,9 +415,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldMovement
   playerController: {fileID: 1632623243}
-  initialSpeed: 6.5
+  initialSpeed: 10
   speedIncreaseRate: 0.3
-  speedWhenTheSlowBoostCanSpawn: 0
+  speedWhenTheSlowBoostCanSpawn: 18
 --- !u!4 &202320730
 Transform:
   m_ObjectHideFlags: 0
@@ -1806,9 +1806,9 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1751277537}
   - {fileID: 619394802}
+  - {fileID: 1606777383}
   - {fileID: 8144137}
   - {fileID: 1632623241}
   - {fileID: 202320730}
   - {fileID: 514111579}
-  - {fileID: 1606777383}
   - {fileID: 1797986353}

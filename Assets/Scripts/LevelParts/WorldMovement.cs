@@ -14,6 +14,7 @@ public class WorldMovement : MonoBehaviour
 
     private float meterCounter;
     private float speedMultiplier = 1f;
+    private float speedOffset = 0f;
 
     private void Start() {
         baseSpeed = initialSpeed;
@@ -26,12 +27,11 @@ public class WorldMovement : MonoBehaviour
         float distanceThisFrame = Time.deltaTime * currentSpeed;
         meterCounter += distanceThisFrame;
         GameManager.instance.SetDistance(meterCounter);
+        GameManager.instance.SetSpeed(currentSpeed);
 
         SpeedIncreaseOverTime();
         CalculateFinalSpeed();
         Move();
-
-        Debug.Log("current Speed " + currentSpeed);
     }
 
     private void Move() {
@@ -50,7 +50,7 @@ public class WorldMovement : MonoBehaviour
             speedMultiplier = 1f;
         }
 
-            currentSpeed = baseSpeed * speedMultiplier;
+            currentSpeed = (baseSpeed + speedOffset) * speedMultiplier;
     }
 
     private void DeathTrigger_PlayerDeath() {
@@ -59,5 +59,10 @@ public class WorldMovement : MonoBehaviour
 
     public bool CanSpawnBooster() {
         return currentSpeed >= speedWhenTheSlowBoostCanSpawn && speedMultiplier == 1f;
+    }
+
+    public void SlowDownSpeed() {
+        speedOffset -= 6f;
+        GameManager.instance.levelManager.ZeroBoosterVariables();
     }
 }

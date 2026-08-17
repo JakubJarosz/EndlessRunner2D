@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public int meterCounter {  get; private set; }
     public int coinCounter { get; private set; }
+    public int speedCounter { get; private set; }
 
     private void Awake() {
         instance = this;
@@ -21,5 +23,9 @@ public class GameManager : MonoBehaviour
 
     public void SetDistance(float distance) {
         meterCounter = Mathf.FloorToInt(distance);
+    }
+
+    public void SetSpeed(float speed) {
+        speedCounter = Mathf.FloorToInt(speed); ;
     }
 }

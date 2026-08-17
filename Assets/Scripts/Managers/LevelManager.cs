@@ -55,4 +55,9 @@ public class LevelManager : MonoBehaviour
             Destroy(old);
         }
     }
+
+    public void ZeroBoosterVariables() {
+        spawnCounterAfterBoost = 0;
+        boosterWasSpawned = false;
+    }
 }

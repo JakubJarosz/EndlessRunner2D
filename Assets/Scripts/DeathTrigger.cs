@@ -9,7 +9,8 @@ public class DeathTrigger : MonoBehaviour
         PlayerController player = collision.GetComponent<PlayerController>();
 
         if (player != null ) {
-            PlayerDeath?.Invoke();
+            GameManager.instance.deathTrigger.PlayerDeath?.Invoke();
+            Debug.Log("Hit");
         }
     }
 }

@@ -10,19 +10,27 @@ public class WorldMovement : MonoBehaviour
 
     private float baseSpeed;
     private float currentSpeed;
-    private bool stopMovement;
-
+    private bool canMove;
+ 
     private float meterCounter;
     private float speedMultiplier = 1f;
     private float speedOffset = 0f;
 
     private void Start() {
         baseSpeed = initialSpeed;
-        GameManager.instance.deathTrigger.PlayerDeath += DeathTrigger_PlayerDeath;
+        GameManager.instance.stateHasChanged += Instance_stateHasChanged;
+    }
+
+    private void Instance_stateHasChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.Gameplay) {
+            canMove = true;
+        } else {
+            canMove = false;
+        }
     }
 
     private void Update() {
-        if (stopMovement) return;
+        if (!canMove) return;
 
         float distanceThisFrame = Time.deltaTime * currentSpeed;
         meterCounter += distanceThisFrame;
@@ -51,10 +59,6 @@ public class WorldMovement : MonoBehaviour
         }
 
             currentSpeed = (baseSpeed + speedOffset) * speedMultiplier;
-    }
-
-    private void DeathTrigger_PlayerDeath() {
-        stopMovement = true;
     }
 
     public bool CanSpawnBooster() {

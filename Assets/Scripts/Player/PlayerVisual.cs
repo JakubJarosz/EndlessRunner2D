@@ -17,11 +17,15 @@ public class PlayerVisual : MonoBehaviour
         controller.PerformLanding += Controller_PerformLanding;
         controller.PerformSlide += Controller_PerformSlide;
         controller.PerformDash += Controller_PerformDash;
-        GameManager.instance.deathTrigger.PlayerDeath += Trigger_PlayerDeath;
+        GameManager.instance.stateHasChanged += Instance_stateHasChanged;
     }
 
-    private void Trigger_PlayerDeath() {
-        anim.SetTrigger("death");
+    private void Instance_stateHasChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.Death) {
+            anim.SetTrigger("death");
+        } else if (obj == GameManager.GameState.Gameplay) {
+            anim.SetTrigger("startRun");
+        }
     }
 
     private void Controller_PerformDash(bool obj) {

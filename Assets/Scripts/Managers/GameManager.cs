@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 
     public GameInputs gameInput;
     public LevelManager levelManager;
-    public DeathTrigger deathTrigger;
 
     public event Action<GameState> stateHasChanged;
 

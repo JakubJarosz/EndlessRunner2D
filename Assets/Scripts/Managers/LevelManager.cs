@@ -5,6 +5,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject initialSpawn;
     [SerializeField] private ListOfLevelPartsSO levelListSO;
+    [SerializeField] private Transform parentOfLevelParts;
 
     private Queue<GameObject> activeParts = new Queue<GameObject>();
     private GameObject lastSpawned;
@@ -17,6 +18,7 @@ public class LevelManager : MonoBehaviour
     private void Awake() {
         activeParts.Enqueue(initialSpawn);
         lastSpawned = initialSpawn;
+        Instantiate(initialSpawn, new Vector3(0,0,0), Quaternion.identity, parentOfLevelParts);
 
         // spawn another 4 more parts, coz first one is initialSpawn
         for (int i = 0; i < maxParts - 1; i++) {

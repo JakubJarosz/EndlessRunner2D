@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Start() {
-        GameManager.instance.deathTrigger.PlayerDeath += DeathTrigger_PlayerDeath;
+        GameManager.instance.stateHasChanged += Instance_stateHasChanged;
         wasGrounded = detection.IsGrounded();
     }
 
@@ -189,12 +189,6 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
     }
 
-    private void DeathTrigger_PlayerDeath() {
-        playerDied = true;
-        rb.linearVelocity = Vector2.zero;
-        rb.gravityScale = 0f;
-    }
-
     private void HandleCharacterCentering() {
         float currentPosition = transform.position.x;
         float delta = currentPosition - lastPosition;
@@ -225,6 +219,14 @@ public class PlayerController : MonoBehaviour
         pos.x = Mathf.MoveTowards(pos.x, 0f, centerSpeed * Time.deltaTime);
 
         transform.position = pos;
+    }
+
+    private void Instance_stateHasChanged(GameManager.GameState obj) {
+        if (obj != GameManager.GameState.Death) return;
+
+        playerDied = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
     }
 
     // Return functions

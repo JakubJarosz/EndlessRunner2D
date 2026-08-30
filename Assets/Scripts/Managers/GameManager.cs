@@ -5,8 +5,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameInputs gameInput;
-    public LevelManager levelManager;
+    public GameInputs gameInput { get; set; }
+    public LevelManager levelManager { get; set; }
+    public ScoreboardManager scoreboardManager { get; set; }
 
     public event Action<GameState> stateHasChanged;
 

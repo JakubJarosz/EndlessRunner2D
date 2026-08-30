@@ -24,7 +24,6 @@ public class GameUIHandler : MonoBehaviour
 
             preGameLayer.SetActive(false);
             GameManager.instance.gameInput.EnableGameplay();
-            Debug.Log("ShoudHaveInputs");
         }
     }
 
@@ -33,7 +32,8 @@ public class GameUIHandler : MonoBehaviour
     }
 
     public void Retry() {
-        GameManager.instance.UpdateGameState(GameManager.GameState.PreStart);
+        //GameManager.instance.UpdateGameState(GameManager.GameState.PreStart);
+        SceneLoader.Instance.LoadScene(SceneLoader.Scenes.GameScene);
     }
 
     public void MainMenu() {

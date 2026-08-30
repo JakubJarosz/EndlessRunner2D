@@ -16,6 +16,7 @@ public class GameInputs : MonoBehaviour
     public event Action StartRunPressed;
 
     private void Awake() {
+        GameManager.instance.gameInput = this;
         inputActions = new InputActions();
 
         inputActions.Player.Disable();

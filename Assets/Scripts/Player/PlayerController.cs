@@ -226,7 +226,7 @@ public class PlayerController : MonoBehaviour
             playerDied = true;
             rb.linearVelocity = Vector2.zero;
             rb.gravityScale = 0f;
-        } else if (obj != GameManager.GameState.PreStart) {
+        } else if (obj == GameManager.GameState.PreStart) {
             // theses are coords for inital player spawn point
             transform.position = new Vector3(0, -1.7f, 0);
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private GameObject initialSpawn;
+    [SerializeField] private GameObject initialSpawnPrefab;
     [SerializeField] private ListOfLevelPartsSO levelListSO;
     [SerializeField] private Transform parentOfLevelParts;
 
@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake() {
         InitialSpawnParts();
+        GameManager.instance.levelManager = this;
     }
 
     private void Start() {
@@ -29,8 +30,6 @@ public class LevelManager : MonoBehaviour
 
             // if statment belove is to be triggered after player dies and presses retry, not initial run
         } else if (obj == GameManager.GameState.PreStart && activeParts.Count == 0) {
-            // spawn initial platform
-            Instantiate(initialSpawn, new Vector3(0,0,0), Quaternion.identity, parentOfLevelParts);
             InitialSpawnParts();
         }
     }
@@ -43,10 +42,10 @@ public class LevelManager : MonoBehaviour
     }
 
     private void InitialSpawnParts() {
-        activeParts.Enqueue(initialSpawn);
-        lastSpawned = initialSpawn;
-
-        // spawn another 4 more parts, coz first one is initialSpawn
+        GameObject first = Instantiate(initialSpawnPrefab, new Vector3(0, -4.4f, 0), Quaternion.identity, parentOfLevelParts);
+        activeParts.Enqueue(first);
+        lastSpawned = first;
+        // spawn another 4 more parts, coz first one is initialSpawnPrefab
         for (int i = 0; i < maxParts - 1; i++) {
             SpawnNext();
         }
@@ -56,6 +55,9 @@ public class LevelManager : MonoBehaviour
         PartSpawner spawnPoint = lastSpawned.GetComponentInChildren<PartSpawner>();
 
         GameObject prefab = levelListSO.GetRandomPart(lastSpawned);
+        if (prefab == null) {
+            Debug.Log("Null");
+        }
         GameObject newPart = spawnPoint.SpawnNewPart(prefab);
         if (boosterWasSpawned) {
             spawnCounterAfterBoost++;

@@ -16,9 +16,35 @@ public class LevelManager : MonoBehaviour
     private int spawnCounterAfterBoost;
 
     private void Awake() {
+        InitialSpawnParts();
+    }
+
+    private void Start() {
+        GameManager.instance.stateHasChanged += Instance_stateHasChanged;
+    }
+
+    private void Instance_stateHasChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.Death) {
+            DestroyAllParts();
+
+            // if statment belove is to be triggered after player dies and presses retry, not initial run
+        } else if (obj == GameManager.GameState.PreStart && activeParts.Count == 0) {
+            // spawn initial platform
+            Instantiate(initialSpawn, new Vector3(0,0,0), Quaternion.identity, parentOfLevelParts);
+            InitialSpawnParts();
+        }
+    }
+
+    private void DestroyAllParts() {
+        foreach (var part in activeParts) {
+            Destroy(part);
+        }
+        activeParts.Clear();
+    }
+
+    private void InitialSpawnParts() {
         activeParts.Enqueue(initialSpawn);
         lastSpawned = initialSpawn;
-        Instantiate(initialSpawn, new Vector3(0,0,0), Quaternion.identity, parentOfLevelParts);
 
         // spawn another 4 more parts, coz first one is initialSpawn
         for (int i = 0; i < maxParts - 1; i++) {

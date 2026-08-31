@@ -19,6 +19,7 @@ public static class ScoreSaveSystem {
     }
 
     public static List<int> Load () {
+        Debug.Log(savePath);
         if (!File.Exists(savePath)) {
             return new List<int>();
         }

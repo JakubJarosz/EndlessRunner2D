@@ -28,12 +28,18 @@ public class ScoreboardManager : MonoBehaviour
     private void AddNewScore() {
         int coins = GameManager.instance.coinCounter == 0 ? 1 : GameManager.instance.coinCounter;
         int score = GameManager.instance.meterCounter * coins;
-        scores.Add(score);
 
+        // add score
+        scores.Add(score);
+        // sort highest to lowest
+        scores.Sort((a, b) => b.CompareTo(a));
+        // remove last element if list is more then 8 
+        if (scores.Count > 8) {
+            scores.RemoveAt(scores.Count - 1);
+        }
+  
         // update save
         ScoreSaveSystem.Save(scores);
         listUpdated?.Invoke();
-    }
-
-  
+    } 
 }

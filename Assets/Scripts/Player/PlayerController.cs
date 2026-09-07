@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour
     private void Instance_stateHasChanged(GameManager.GameState obj) {
         if (obj == GameManager.GameState.Death) {
             playerDied = true;
-            rb.linearVelocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;         
             rb.gravityScale = 0f;
         } else if (obj == GameManager.GameState.PreStart) {
             // theses are coords for inital player spawn point

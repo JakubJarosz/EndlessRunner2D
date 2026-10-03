@@ -1,5 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum AudioType {
+    OneShot,
+    Loop,
+    Music
+}
 
 public enum SoundType {
     Coin,
@@ -12,46 +19,75 @@ public enum SoundType {
     Step
 }
 
-[RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
+
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance;        
-    
-    [SerializeField] private SoundList[] soundList;
+    public static SoundManager instance;
 
     [Header("Audio Sources")]
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource loopSource;
+    [SerializeField] private AudioSource musicSource;
+
+    [Header("Sound Database")]
+    [SerializeField] private SoundDataSO[] soundDatabase;
+
+    private Dictionary<SoundType, SoundDataSO> soundMap;
 
     private void Awake() {
         instance = this;
-    }
 
-    private void Start() {
-        audioSource = GetComponent<AudioSource>();
-    }
-
-    // IF IN UNITY EDITOR
-    private void OnEnable() {
-        string[] names = Enum.GetNames(typeof(SoundType));
-        Array.Resize(ref soundList, names.Length);
-        for (int i = 0; i < soundList.Length; i++) {
-            soundList[i].name = names[i];
+        soundMap = new Dictionary<SoundType, SoundDataSO>();
+        foreach (var sound in soundDatabase) {
+            soundMap[sound.type] = sound;
         }
     }
 
-    // Parameters 1.SoundType 2.Volumn
-    public static void PlaySound(SoundType sound, float volumn = 1) {
+    // ------------------- SFX -------------------
 
-        AudioClip[] clips = instance.soundList[(int)sound].Sounds;
-        AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
-        instance.audioSource.PlayOneShot(randomClip, volumn);
+    public void PlaySFX(SoundType type, float volumn = 1f) {
+        AudioClip clip = GetAClip(type);
+        sfxSource.PlayOneShot(clip, volumn);
+    }
+
+    // ------------------- SFX -------------------
+
+    public void PlayLoop(SoundType type, float volumn = 1f) {
+        AudioClip clip = GetAClip(type);
+
+        loopSource.clip = clip;
+        loopSource.loop = true;
+        loopSource.volume = volumn;
+        loopSource.Play();
+    }
+
+    public void StopLoop() {
+        loopSource.Stop();
+        loopSource.clip = null;
+    }
+
+    // ------------------- SFX -------------------
+
+    public void PlayMusic(SoundType type, float volumn = 1f) {
+        AudioClip clip = GetAClip(type);
+
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.volume = volumn;  
+        musicSource.Play();
+    }
+
+    public void StopMusic() {
+        musicSource.Stop();
+        musicSource = null;
+    }
+    // ------------------- Helper functions -------------------
+
+    private AudioClip GetAClip(SoundType type) {
+        AudioClip[] clips = soundMap[type].clips;
+
+        return clips[UnityEngine.Random.Range(0, clips.Length)];
     }
 }
 
-[Serializable]
-public struct SoundList {
-    public AudioClip[] Sounds { get => sounds; }
-    [HideInInspector] public string name;
-    [SerializeField] private AudioClip[] sounds;
-}
 

@@ -39,6 +39,7 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
         playerPickedUpCoin = true;
+        SoundManager.PlaySound(SoundType.Coin);
     }
 
     private void PickUp() {

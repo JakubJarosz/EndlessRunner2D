@@ -15,8 +15,11 @@ public enum SoundType {
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance;        
+    
     [SerializeField] private SoundList[] soundList;
-    public static SoundManager instance;
+
+    [Header("Audio Sources")]
     private AudioSource audioSource;
 
     private void Awake() {
